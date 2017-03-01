@@ -5,29 +5,30 @@
     <title>DarkFrost</title>
     <link rel="stylesheet" href="css/main.css">
     <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   </head>
   <body>
     <div id="currently">
       <header>
-        <h4>{{ location }}</h4>
+        <h4 id= 'loc'>{{ location }}</h4>
       </header>
       <main>
         <div>
-          <h1>{{ apparentTemperature }}</h1>
+          <h1 id= 'temp'>{{ apparentTemperature }}</h1>
         </div>
         <div>
-          <h2>{{ summary }}</h2>
+          <h2 id= 'summary'>{{ summary }}</h2>
           <div>
             <img src="https://placehold.it/200x200">
           </div>
         </div>
         <div>
-          <h3>{{ precipProbability }}</h3>
-          <h3>{{ humidity }}</h3>
+          <h3 id= 'precip'>{{ precipProbability }}</h3>
+          <h3 id= 'hum'>{{ humidity }}</h3>
         </div>
       </main>
       <footer>
-        <h4>{{ time }}</h4>
+        <h4 id= 'time'>{{ time }}</h4>
       </footer>
     </div>
     <div id="app">
