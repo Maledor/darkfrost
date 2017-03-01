@@ -10,7 +10,7 @@ var currentlyWidget = new Vue({
   data: {
     time: 1000000,
     summary: 'Partly Cloudy',
-    icon: 'partly-cloudy',
+    icon: 'partly-cloudy-day',
     apparentTemperature: 67.4,
     precipProbability: 0.30,
     humidity: 0.61,
