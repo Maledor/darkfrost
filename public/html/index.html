@@ -31,6 +31,15 @@
         <h4 id= 'time'>{{ time }}</h4>
       </footer>
     </div>
+    <div id="daily">
+      <header>
+        <h1>DAILY</h1>
+        <h2>{{ summary }}</h2>
+      </header>
+      <main>
+        <img :src="iconUrl(icon)">
+      </main>
+    </div>
     <div id="app">
       <p>{{ message }}</p>
     </div>
