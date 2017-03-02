@@ -10,6 +10,10 @@
   <body>
     <div id="currently">
       <header>
+        <h1>CURRENTLY</h1>
+        <input type="text" placeholder='Latitude:' v-model='latitude'>
+        <input type="text" placeholder='Longitude:' v-model='longitude'>
+        <button v-on:click="updateWeather()">Update Weather</button>
         <h4 id= 'loc'>{{ location }}</h4>
       </header>
       <main>
