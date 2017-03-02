@@ -22,8 +22,8 @@ var currentlyWidget = new Vue({
     iconUrl: function(iconString){
       return `/images/${iconString}.png`;
     },
-    updateWeather: function(){
-      var url = `/weather/${this.latitude},${this.longitude}`;
+    getWeather: function(lat, lon){
+      var url = `/weather/${lat},${lon}`;
       axios.get(url)
         .then(function(response){
           var data = response.data.currently;
@@ -34,29 +34,17 @@ var currentlyWidget = new Vue({
           currentlyWidget.precipProbability = data.precipProbability;
           currentlyWidget.humidity = data.humidity;
           currentlyWidget.location = data.location;
-          currentlyWidget.location = data.location;
         })
         .catch(function(err){
           console.log(err);
         });
+    },
+    updateWeather: function(){
+      this.getWeather(this.latitude, this.longitude);
     }
   },
   created: function(){
-    axios.get('/weather/29.1,-81.4')
-      .then(function(response){
-        var data = response.data.currently;
-        currentlyWidget.time = data.time;
-        currentlyWidget.summary = data.summary;
-        currentlyWidget.icon = data.icon;
-        currentlyWidget.apparentTemperature = data.apparentTemperature;
-        currentlyWidget.precipProbability = data.precipProbability;
-        currentlyWidget.humidity = data.humidity;
-        currentlyWidget.location = data.location;
-        currentlyWidget.location = data.location;
-      })
-      .catch(function(err){
-        console.log(err);
-      });
+    this.getWeather(29.1, -81.4);
   }
 });
 
