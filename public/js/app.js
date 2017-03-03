@@ -5,6 +5,49 @@ var app = new Vue({
   }
 });
 
+var hourlyWidget = new Vue({
+  el: '#hourly',
+  data: {
+    summary: "it's gonna rain",
+    icon: 'clear-night',
+    hours: [],
+  },
+  methods: {
+    getHourlyIcon: function(iconString){
+      return `/images/${iconString}.png`
+    },
+    getDate: function(seconds){
+      var date = new Date(seconds * 1000);
+      var month = date.getMonth();
+      var year = date.getFullYear();
+      var day = date.getDate();
+      var hour = date.getHours();
+      var minutes = date.getMinutes();
+      return `${month + 1}/${day}/${year} ${hour}:${minutes < 9 ? '0' + minutes : minutes}`;
+    },
+    getMainIcon: function(){
+      return `/images/${this.icon}.png`;
+    },
+    getHourlyWeather: function(lat, lon){
+      var url = `/weather/${lat},${lon}`;
+      axios.get(url)
+      .then(function(response){
+        var hourlyData = response.data.hourly;
+        console.log(hourlyData);
+        this.summary = hourlyData.summary;
+        this.icon = hourlyData.icon;
+        this.hours = hourlyData.data;
+      }.bind(this))
+      .catch(function(err){
+        console.log(err);
+      });
+    }
+  },
+  created: function(){
+    this.getHourlyWeather(29.1, -84.1);
+  }
+});
+
 var currentlyWidget = new Vue({
   el: '#currently',
   data: {
