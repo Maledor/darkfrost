@@ -10,15 +10,36 @@
   <body>
     <div id="hourly">
       <header>
+        <h1>HOURLY</h1>
+        <input type="text" placeholder='Latitude:' v-model='latitude'>
+        <button v-on:click="updateWeather()">Update Weather</button>
+        <input type="text" placeholder='Longitude:' v-model='longitude'>
         <div>
           {{ summary }}
         </div>
-        <img :src="getMainIcon()">
+        <img :src="getMainIcon()" class="mainImage">
       </header>
       <main>
-        <ul>
+        <ul class="hourlyList">
           <li v-for='hour in hours'>
-            {<img src="getHourlyIcon(hour.icon)"> - {{ hour.summary }} - {{ hour.apparentTemperature }} - {{ getDate(hour.time) }}
+            <img :src="getHourlyIcon(hour.icon)" class="hourlyImage"> &#9889; {{ hour.summary }} &#9889; {{ hour.apparentTemperature }}&#8457 &#9889; {{ getDate(hour.time) }} &#9889; {{ hour.precipProbability*100 }}% Chance of Precipitation &#9889; {{ hour.humidity*100 }}% Humidity
+          </li>
+        </ul>
+      </main>
+    </div>
+    <div id="daily">
+      <header>
+        <h1>DAILY</h1>
+        <input type="text" placeholder='Latitude:' v-model='latitude'>
+        <button v-on:click="updateWeather()">Update Weather</button>
+        <input type="text" placeholder='Longitude:' v-model='longitude'>
+        <h2>{{ summary }}</h2>
+        <img :src="iconUrl(icon)" class="mainDailyImage">
+      </header>
+      <main>
+        <ul class="dailyList">
+          <li v-for='day in days'>
+          <img :src="iconUrl(day.icon)" class="dailyImage"> &#9889; {{ day.apparentTemperatureMin }}&#8457 (Low) &#9889; {{ day.apparentTemperatureMax }}&#8457 (High) &#9889; {{ day.humidity*100 }}% Humidity &#9889; {{ day.precipProbability*100 }}% Chance of Precipitation
           </li>
         </ul>
       </main>
@@ -27,8 +48,8 @@
       <header>
         <h1>CURRENTLY</h1>
         <input type="text" placeholder='Latitude:' v-model='latitude'>
-        <input type="text" placeholder='Longitude:' v-model='longitude'>
         <button v-on:click="updateWeather()">Update Weather</button>
+        <input type="text" placeholder='Longitude:' v-model='longitude'>
         <h4 id= 'loc'>{{ location }}</h4>
       </header>
       <main>
@@ -38,31 +59,18 @@
         <div>
           <h2 id= 'summary'>{{ summary }}</h2>
           <div>
-            <img :src="iconUrl(icon)">
+            <img :src="iconUrl(icon)" class="currentlyImage">
           </div>
         </div>
         <div>
-          <h3 id= 'precip'>{{ precipProbability }}</h3>
-          <h3 id= 'hum'>{{ humidity }}</h3>
+          <h3 id= 'precip'>{{ precipProbability*100 }}% Chance of Precipitation</h3>
+          <h3 id= 'hum'>{{ humidity*100 }}% Humidity</h3>
         </div>
       </main>
       <footer>
-        <h4 id= 'time'>{{ time }}</h4>
+        <h4 id= 'time'>{{ getDate(time) }}</h4>
       </footer>
     </div>
-    <div id="daily">
-      <header>
-        <h1>DAILY</h1>
-        <h2>{{ summary }}</h2>
-      </header>
-      <main>
-        <img :src="iconUrl(icon)">
-      </main>
-    </div>
-    <div id="app">
-      <p>{{ message }}</p>
-    </div>
-
     <script src="js/app.js"></script>
   </body>
 </html>

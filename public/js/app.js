@@ -13,8 +13,14 @@ var hourlyWidget = new Vue({
     hours: [],
   },
   methods: {
+    getMainIcon: function(){
+      return `/images/${this.icon}.png`;
+    },
     getHourlyIcon: function(iconString){
-      return `/images/${iconString}.png`
+      return `/images/${iconString}.png`;
+    },
+    iconUrl: function(iconString){
+      return `/images/${iconString}.png`;
     },
     getDate: function(seconds){
       var date = new Date(seconds * 1000);
@@ -25,9 +31,6 @@ var hourlyWidget = new Vue({
       var minutes = date.getMinutes();
       return `${month + 1}/${day}/${year} ${hour}:${minutes < 9 ? '0' + minutes : minutes}`;
     },
-    getMainIcon: function(){
-      return `/images/${this.icon}.png`;
-    },
     getHourlyWeather: function(lat, lon){
       var url = `/weather/${lat},${lon}`;
       axios.get(url)
@@ -37,11 +40,19 @@ var hourlyWidget = new Vue({
         this.summary = hourlyData.summary;
         this.icon = hourlyData.icon;
         this.hours = hourlyData.data;
+        this.time = hourlyData.time;
+        this.apparentTemperature = hourlyData.apparentTemperature;
+        this.precipProbability = hourlyData.precipProbability;
+        this.humidity = hourlyData.humidity;
+        this.location = hourlyData.location;
       }.bind(this))
       .catch(function(err){
         console.log(err);
       });
     }
+  },
+  updateWeather: function(){
+    this.getHourlyWeather(this.latitude, this.longitude);
   },
   created: function(){
     this.getHourlyWeather(29.1, -84.1);
@@ -76,11 +87,23 @@ var currentlyWidget = new Vue({
           currentlyWidget.apparentTemperature = data.apparentTemperature;
           currentlyWidget.precipProbability = data.precipProbability;
           currentlyWidget.humidity = data.humidity;
-          currentlyWidget.location = data.location;
+          // currentlyWidget.location = data.location;
         })
         .catch(function(err){
           console.log(err);
         });
+    },
+    getDailyIcon: function(iconString){
+      return `/images/${iconString}.png`;
+    },
+    getDate: function(seconds){
+      var date = new Date(seconds * 1000);
+      var month = date.getMonth();
+      var year = date.getFullYear();
+      var day = date.getDate();
+      var hour = date.getHours();
+      var minutes = date.getMinutes();
+      return `${month + 1}/${day}/${year} ${hour}:${minutes < 9 ? '0' + minutes : minutes}`;
     },
     updateWeather: function(){
       this.getWeather(this.latitude, this.longitude);
@@ -95,7 +118,8 @@ var dailyWidget = new Vue({
   el: "#daily",
   data: {
     summary: 'partly-cloudy',
-    icon: 'tornado'
+    icon: 'tornado',
+    days: []
   },
   methods: {
     iconUrl: function(iconString){
@@ -106,11 +130,27 @@ var dailyWidget = new Vue({
     axios.get('/weather/29.1,-81.4')
       .then(function(response){
         var data = response.data.daily;
+        console.log(data);
+        dailyWidget.time = data.time;
         dailyWidget.summary = data.summary;
         dailyWidget.icon = data.icon;
+        dailyWidget.days = data.data;
+        dailyWidget.apparentTemperature = data.apparentTemperature;
+        dailyWidget.precipProbability = data.precipProbability;
+        dailyWidget.humidity = data.humidity;
+        dailyWidget.location = data.location;
       })
       .catch(function(err){
         console.log(err);
       });
+  },
+  getDate: function(seconds){
+    var date = new Date(seconds * 1000);
+    var month = date.getMonth();
+    var year = date.getFullYear();
+    var day = date.getDate();
+    var hour = date.getHours();
+    var minutes = date.getMinutes();
+    return `${month + 1}/${day}/${year} ${hour}:${minutes < 9 ? '0' + minutes : minutes}`;
   }
 });
