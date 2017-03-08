@@ -1,7 +1,6 @@
 body {
   background-color: skyblue;
-  /*background-image: url(/images/weather-background.png);
-  background-size: cover;*/
+  background-image: url(/images/weather-background.png);
 }
 
 .bd {
